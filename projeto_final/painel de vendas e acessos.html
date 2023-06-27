@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Painel</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .panel {
+      background-color: #f1f1f1;
+      height: 50px;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .profile {
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 120px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .profile:hover .profile-content {
+      display: block;
+    }
+
+    .profile-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .profile-content a:hover {
+      background-color: #f1f1f1;
+    }
+
+    .sidebar {
+      background-color: #f9f9f9;
+      width: 200px;
+      padding: 20px;
+      height: 100vh;
+    }
+
+    .sidebar a {
+      display: block;
+      margin-bottom: 10px;
+      text-decoration: none;
+    }
+
+    .center-bar {
+      background-color: #ccc;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .content {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .chart-container {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .chart-container canvas {
+      max-width: 100%;
+    }
+
+    table {
+      width: 100%;
+      margin-bottom: 20px;
+      border-collapse: collapse;
+    }
+
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+
+    @media (max-width: 768px) {
+      .content {
+        flex-wrap: wrap;
+      }
+
+      .chart-container {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <div class="d-flex align-items-center">
+      <h5 class="mr-3"><i class="fas fa-home"></i> Meu Painel</h5>
+      <input type="text" class="form-control" style="width: 200px;" placeholder="Buscar">
+    </div>
+    <div class="profile">
+      <button class="btn btn-primary">Perfil</button>
+      <div class="profile-content">
+        <a href="#">Configurações</a>
+        <a href="#">Mensagens</a>
+        <a href="#">Sair</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="center-bar">
+    <h3>Início/Painel</h3>
+  </div>
+
+  <div class="content">
+    <div class="sidebar">
+      <a href="#"><i class="fas fa-home"></i> Painel</a>
+      <a href="#"><i class="fas fa-file"></i> Ordens</a>
+      <a href="#"><i class="fas fa-shopping-cart"></i> Produtos</a>
+      <a href="#"><i class="fas fa-users"></i> Clientes</a>
+      <a href="#"><i class="fas fa-chart-bar"></i> Relatórios</a>
+    </div>
+
+    <div class="chart-container">
+      <canvas id="myChart"></canvas>
+      <table>
+        <thead>
+          <tr>
+            <th>Mês</th>
+            <th>Vendas de Sucesso</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Janeiro</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>Fevereiro</td>
+            <td>19</td>
+          </tr>
+          <tr>
+            <td>Março</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>Abril</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>Maio</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>Junho</td>
+            <td>3</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="chart-container">
+      <canvas id="myChart2"></canvas>
+      <table>
+        <thead>
+          <tr>
+            <th>Mês</th>
+            <th>Quantidade de acessos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Janeiro</td>
+            <td>100</td>
+          </tr>
+          <tr>
+            <td>Fevereiro</td>
+            <td>150</td>
+          </tr>
+          <tr>
+            <td>Março</td>
+            <td>120</td>
+          </tr>
+          <tr>
+            <td>Abril</td>
+            <td>170</td>
+          </tr>
+          <tr>
+            <td>Maio</td>
+            <td>190</td>
+          </tr>
+          <tr>
+            <td>Junho</td>
+            <td>180</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+  </div>
+  
+  <footer style="background-color: #f1f1f1; padding: 10px; text-align: center;">
+    <p>© 2023 Meu Painel. Todos os direitos reservados.</p>
+  </footer>
+  <script>
+    // Dados do gráfico de exemplo 1
+    var data1 = {
+      labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'],
+      datasets: [{
+        label: 'Vendas',
+        data: [12, 19, 3, 5, 2, 3],
+        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    };
+
+    // Opções do gráfico 1
+    var options1 = {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    };
+
+    // Criação do gráfico de barra 1
+    var ctx1 = document.getElementById('myChart').getContext('2d');
+    var myChart1 = new Chart(ctx1, {
+      type: 'bar',
+      data: data1,
+      options: options1
+    });
+
+    // Dados do gráfico de exemplo 2
+    var data2 = {
+      labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'],
+      datasets: [{
+        label: 'Acessos',
+        data: [100, 150, 120, 170, 190, 180],
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }]
+    };
+
+    // Opções do gráfico 2
+    var options2 = {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    };
+
+    // Criação do gráfico de barra 2
+    var ctx2 = document.getElementById('myChart2').getContext('2d');
+    var myChart2 = new Chart(ctx2, {
+      type: 'bar',
+      data: data2,
+      options: options2
+    });
+  </script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/js/all.min.js"></script>
+</body>
+</html>
